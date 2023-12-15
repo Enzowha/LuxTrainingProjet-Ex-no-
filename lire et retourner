@@ -1,0 +1,46 @@
+const XLSX = require('xlsx');
+
+/**
+
+Lit un fichier Excel et retourne les données
+
+@param {string} filePath - Le chemin vers le fichier Excel
+
+@returns {Promise<Array>} - Les données du fichier Excel
+
+*/
+
+async function lireFichierExcel(filePath) {
+  try {
+    const workbook = XLSX.readFile(filePath);
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    const [header, ...rows] = jsonData;
+    const data = rows.map((row) =>
+      Object.fromEntries(row.map((value, index) => [header[index], value]))
+    );
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/**
+
+Crée un utilisateur en utilisant l'API JSONPlaceholder
+
+@param {Object} utilisateur - Les informations de l'utilisateur à créer
+
+@returns {Promise} - La réponse de l'API
+
+*/
+
+async function creerUtilisateur(utilisateur) {
+  try {
+    const response = await fetch('https://jsonplaceholder.typ');
+    // Le reste du code ici
+  } catch (error) {
+    console.error(error);
+  }
+}
